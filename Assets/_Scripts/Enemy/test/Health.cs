@@ -1,26 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ParrotGame.Enemy{
     public class Health : MonoBehaviour
     {
+        [SerializeField] private float defaultHealth = 100f;
 
-        private float health {get; set;};
+        [HideInInspector] public UnityEvent OnHit;
+        [HideInInspector] public UnityEvent OnDeath;
 
-        public float 
+        private bool isDead;
+        private float health { get; set; }
         
-        // Start is called before the first frame update
-        void Start()
+        public bool IsDead => isDead;
+        public float CurrentHealth => health;
+
+        private void Awake()
         {
-            
+            isDead = false;
+            health = defaultHealth;
         }
 
-        // Update is called once per frame
-        void Update()
+        public void TakeDamage(float damage)
         {
-            
+            if (isDead)
+                return;
+
+            health -= damage;
+            OnHit.Invoke();
+
+            if(health <= 0)
+            {
+                Die();
+            }
+        }
+
+        public void Die()
+        {
+            // death
+            isDead = true;
+            OnDeath.Invoke();
         }
     }
-
 }
