@@ -44,7 +44,7 @@ public class Move : MonoBehaviour
 
 
     [Header("References")]
-    [SerializeField] SO_CharacterData defaultChar;
+    
     public GameObject ability;
     [SerializeField] GameObject mainCamObj;
     [SerializeField] Transform playerObj;
@@ -90,8 +90,8 @@ public class Move : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         // OnStart disable this movement
-        UpdateStats(defaultChar);
-        SwitchCameraView(1);
+        // UpdateStats(defaultChar);
+        // SwitchCameraView(1);
     }
 
     void FixedUpdate(){
@@ -114,7 +114,7 @@ public class Move : MonoBehaviour
         if(Input.GetKeyUp(crouchKey)){
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
         }
-        if(Input.GetKeyDown(ChangeCamKey)) SwitchCameraView(++camNum);
+        // if(Input.GetKeyDown(ChangeCamKey)) SwitchCameraView(++camNum);
         // if(Input.GetKeyDown(TopDownCamKey)) SwitchCameraView(CameraState.Topdown);
         // if(Input.GetKeyDown(CombatCamKey)) SwitchCameraView(CameraState.Combat);
 
@@ -179,55 +179,55 @@ public class Move : MonoBehaviour
     }
 
 
-    private void SwitchCameraView(int num){
-        basicCam.SetActive(false);
-        topDownCam.SetActive(false);
-        combatCam.SetActive(false);
-        if(num > 2){
-            camNum = 1;
-            num = 1;
-        }
+    // private void SwitchCameraView(int num){
+    //     basicCam.SetActive(false);
+    //     topDownCam.SetActive(false);
+    //     combatCam.SetActive(false);
+    //     if(num > 2){
+    //         camNum = 1;
+    //         num = 1;
+    //     }
 
-        if(num == 1){
-            basicCam.SetActive(true);
-            mainCamObj = basicCam;
-            camState = CameraState.Basic;
-        }else if(num == 2){
-            topDownCam.SetActive(true);
-            mainCamObj = topDownCam;
-            camState = CameraState.Topdown;
-        }else if(num == 3){
-            combatCam.SetActive(true);
-            mainCamObj = combatCam;
-            camState = CameraState.Combat;
-        }
+    //     if(num == 1){
+    //         basicCam.SetActive(true);
+    //         mainCamObj = basicCam;
+    //         camState = CameraState.Basic;
+    //     }else if(num == 2){
+    //         topDownCam.SetActive(true);
+    //         mainCamObj = topDownCam;
+    //         camState = CameraState.Topdown;
+    //     }else if(num == 3){
+    //         combatCam.SetActive(true);
+    //         mainCamObj = combatCam;
+    //         camState = CameraState.Combat;
+    //     }
 
 
         
          
-    }
+    // }
 
     private void ResetJump(){
         readyToJump = true;
     }
 
     //Update all stats
-    public void UpdateStats(SO_CharacterData character){ // updating char stats
-        walkSpeed = character.walkSpeed;
-        sprintSpeed = character.sprintSpeed;
-        rotationSpeed = character.rotationSpeed;
-        groundDrag = character.groundDrag;
-        jumpForce = character.jumpForce;
-        jumpCooldown = character.jumpCooldown;
-        airSpeedMultiplier = character.airSpeedMultiplier;
-        crouchSpeed = character.crouchSpeed;
-        whatElement = character.id;
-        ability = character.ability;
-        // rb.mass = character.mass;
-        if(playerObj.transform.childCount != 0)
-            Destroy(playerObj.transform.GetChild(0).gameObject);
-        Instantiate(character.charObject, playerObj.transform.position, playerObj.transform.rotation,  playerObj.transform);
-    }
+    // public void UpdateStats(SO_CharacterData character){ // updating char stats
+    //     walkSpeed = character.walkSpeed;
+    //     sprintSpeed = character.sprintSpeed;
+    //     rotationSpeed = character.rotationSpeed;
+    //     groundDrag = character.groundDrag;
+    //     jumpForce = character.jumpForce;
+    //     jumpCooldown = character.jumpCooldown;
+    //     airSpeedMultiplier = character.airSpeedMultiplier;
+    //     crouchSpeed = character.crouchSpeed;
+    //     whatElement = character.id;
+    //     ability = character.ability;
+    //     // rb.mass = character.mass;
+    //     if(playerObj.transform.childCount != 0)
+    //         Destroy(playerObj.transform.GetChild(0).gameObject);
+    //     Instantiate(character.charObject, playerObj.transform.position, playerObj.transform.rotation,  playerObj.transform);
+    // }
 
     void Update()
     {
