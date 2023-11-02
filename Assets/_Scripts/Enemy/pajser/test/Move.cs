@@ -102,7 +102,7 @@ public class Move : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if(Input.GetKey(jumpKey) && readyToJump && grounded){
+        if(Input.GetKeyDown(jumpKey) && readyToJump && grounded){
             readyToJump = false;
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
