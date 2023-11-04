@@ -39,8 +39,8 @@ public class Move : MonoBehaviour
     [SerializeField] KeyCode jumpKey = KeyCode.Space;
     [SerializeField] KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] KeyCode crouchKey = KeyCode.LeftControl;
-    [SerializeField] KeyCode ChangeCamKey = KeyCode.V;
-    private int camNum;
+    // [SerializeField] KeyCode ChangeCamKey = KeyCode.V;
+    // private int camNum;
 
 
     [Header("References")]
@@ -81,7 +81,7 @@ public class Move : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false; 
         // cam
-        camNum = 1;
+        // camNum = 1;
 
         startYScale = transform.localScale.y;
 

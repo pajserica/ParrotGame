@@ -20,6 +20,7 @@ public class MeleeAnimationAttack : MonoBehaviour, IAttackPlayer
         else if(!(hitBox = attackBox.GetComponent<BoxCollider>()))
             Debug.Log("missing BoxCollider in" + attackBox.name);
         
+        hitBox.enabled = false;
         
         
     }
