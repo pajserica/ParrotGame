@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TriggerEnemy : MonoBehaviour
 {
-    public EnemyMovement MovScript;
+    [SerializeField] EnemyController ctrlScript;
 
 
     void OnTriggerEnter(Collider coll){
         if(coll.tag == "Player"){
-            MovScript.GetInfo(coll.gameObject.transform);
+            ctrlScript.GetInfo(coll.gameObject.transform);
         }
     }
 }

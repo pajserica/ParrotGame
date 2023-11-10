@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackPoint : MonoBehaviour, IAttackPlayer
+public class AttackPoint : AttackPlayer
 {
     [SerializeField] Vector3 pointOfDamage;
     [SerializeField] float damageRadius;
@@ -11,7 +11,6 @@ public class AttackPoint : MonoBehaviour, IAttackPlayer
     // Start is called before the first frame update
     void Start()
     {
-        Attack();
     }
 
     // Update is called once per frame
@@ -20,7 +19,7 @@ public class AttackPoint : MonoBehaviour, IAttackPlayer
         
     }
 
-    public void Attack(){
+    public override void Attack(){
         Invoke("TriggerSpherePointAttack", attackDelay);
     }
 

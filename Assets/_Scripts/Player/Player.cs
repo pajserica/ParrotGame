@@ -8,8 +8,8 @@ public class Player : MonoBehaviour
 
     private PlayerFeedback playerFeedback;
 
-    private bool isAlive = true;
-    private bool canAttack = true;
+    // private bool isAlive = true;
+    // private bool canAttack = true;
 
     private void Start()
     {

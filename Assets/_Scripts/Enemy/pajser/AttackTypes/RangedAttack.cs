@@ -2,31 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedAttack : MonoBehaviour, IAttackPlayer
+public class RangedAttack : AttackPlayer
 {
 
-    
-    [SerializeField] float animationDuration;
-    [SerializeField] float range;
-    [SerializeField] float abilitySpeed;
-    [SerializeField] GameObject abilityObject;
+    [SerializeField] List<Transform> spawnAbilityPositions;
 
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Attack();
-    }
-
-    public void Attack(){
+    public override void Attack(){
         // Animation
-        Invoke("CastAbility", animationDuration); 
+        isAttacking = true;
+        Invoke("CastAbility", firstCastWaitTime);
+        if(repeatCastAfter != 0)
+            InvokeRepeating("CastAbility", firstCastWaitTime, repeatCastAfter);
     }
 
     private void CastAbility(){
-        Instantiate(abilityObject, transform.position, transform.rotation);
+        foreach(Transform point in spawnAbilityPositions){
+            Instantiate(abilityObject, point.position, point.rotation);
+        }
+        Debug.Log(gameObject);
     }
+
 
     
 

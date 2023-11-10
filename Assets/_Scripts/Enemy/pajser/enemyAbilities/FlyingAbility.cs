@@ -7,6 +7,7 @@ public class FlyingAbility : MonoBehaviour
     Rigidbody rb;
     [SerializeField] float abilitySpeed;
     [SerializeField] float destroyAfter;
+    [SerializeField] float acceleration;
 
     // Start is called before the first frame update
     void Start()
@@ -16,17 +17,20 @@ public class FlyingAbility : MonoBehaviour
             return;
         }
         
-        rb.velocity = Vector3.forward * abilitySpeed;
+        rb.velocity = transform.forward * abilitySpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(acceleration != 0)
+            rb.velocity += transform.forward * acceleration/100f;
+        
         Invoke("DestroySelf", destroyAfter);
     }
 
     public void OnTriggerEnter(Collider coll){
-        if(coll.tag != "Enemy")
+        if(coll.tag == "Player")
             DestroySelf();
     }
 

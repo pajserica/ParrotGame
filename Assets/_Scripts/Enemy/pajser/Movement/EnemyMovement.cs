@@ -4,22 +4,41 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))] 
-public abstract class EnemyMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
-    public NavMeshAgent agent;
-    private Transform objectEntered;
-
-    void Awake(){
+    NavMeshAgent agent;
+    private Transform followThis;
+    private Vector3 moveToPosition;
+    bool isMoving;
+    void Start(){
         agent = GetComponent<NavMeshAgent>();
-        Debug.Log(agent + "base");
     }
 
-    public void GetInfo(Transform _transform){
-        objectEntered = _transform;
-        if(objectEntered.gameObject.tag == "Player"){
-            StartMovement(objectEntered);
+    void Update(){
+        if(isMoving){
+            if(followThis)
+                moveToPosition = followThis.position;
+            agent.SetDestination(moveToPosition);
         }
+        
     }
 
-    public abstract void StartMovement(Transform z);
+
+    public void followTransform(Transform T){
+        isMoving = true;
+        followThis = T;
+    }
+    public void StopFollowing(){
+        followThis = null;
+    }
+
+
+    public void GoToPosition(Transform T){
+        moveToPosition = T.position;
+        isMoving = true;
+    }
+    public void StopMovement(){
+        isMoving = false;
+    }
+
 }

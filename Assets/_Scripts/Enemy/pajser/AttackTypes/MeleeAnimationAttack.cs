@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MeleeAnimationAttack : MonoBehaviour, IAttackPlayer
+public class MeleeAnimationAttack : AttackPlayer
 {
 
     [SerializeField] GameObject attackBox;
@@ -31,7 +31,7 @@ public class MeleeAnimationAttack : MonoBehaviour, IAttackPlayer
 
     }
 
-    public void Attack(){
+    public override void Attack(){
         StartAttack();
         Invoke("EndAttack", attackDuration);
     }
