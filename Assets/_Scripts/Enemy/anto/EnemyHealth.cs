@@ -19,6 +19,9 @@ namespace ParrotGame.Enemy{
         {
             isDead = false;
             health = defaultHealth;
+
+            OnHit = new UnityEvent();
+            OnDeath = new UnityEvent(); 
         }
 
         public void TakeDamage(float damage, Vector3 source)
