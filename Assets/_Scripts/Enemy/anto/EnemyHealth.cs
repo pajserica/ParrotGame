@@ -4,26 +4,27 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace ParrotGame.Enemy{
-    public class Health : MonoBehaviour
+    public class EnemyHealth : MonoBehaviour, IDamagable, IDamagableEvents
     {
         [SerializeField] private float defaultHealth = 100f;
 
-        [HideInInspector] public UnityEvent OnHit;
-        [HideInInspector] public UnityEvent OnDeath;
+        public float health { get; set; }
+        public bool isDead { get; set; }
 
-        private bool isDead;
-        private float health { get; set; }
+        public UnityEvent OnHit { get; set; }
+        public UnityEvent OnDeath { get; set; }
         
-        public bool IsDead => isDead;
-        public float CurrentHealth => health;
 
         private void Awake()
         {
             isDead = false;
             health = defaultHealth;
+
+            OnHit = new UnityEvent();
+            OnDeath = new UnityEvent(); 
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Vector3 source)
         {
             if (isDead)
                 return;
