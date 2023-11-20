@@ -2,16 +2,21 @@ using UnityEngine;
 
 public class TriggerEnemy : MonoBehaviour
 {
-    EnemyController ctrlScript;
+    EnemyStateManager stateManager;
 
     private void Awake()
     {
-        ctrlScript = transform.parent.GetComponent<EnemyController>();
-        print(ctrlScript.gameObject.name);
+        stateManager = transform.parent.GetComponent<EnemyStateManager>();
     }
 
     void OnTriggerEnter(Collider coll)
     {
-        ctrlScript.GetInfo(coll.transform);
+        stateManager.GetInfo(coll.transform);
+    }
+    void OnTriggerExit(Collider coll)
+    {
+        if(coll.gameObject.tag == "Player")
+            stateManager.playerTransform = null;
+
     }
 }
