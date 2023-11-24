@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     // private bool isAlive = true;
     // private bool canAttack = true;
 
+    [SerializeField] private PlayerMovement playerMovement;
+
     private void Start()
     {
         health = maxHealth; 
@@ -19,7 +21,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-
+        playerMovement.Move();
     }
 
     public void TakeDamage(float damage)
