@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyStateManager : MonoBehaviour
+public class EnemyStateManager : MonoBehaviour, IDamagable
 {
 
     // references
     public NavMeshAgent agent;
     [HideInInspector] public AttackPlayer attackScript;
+    public Healthbar HealthbarScript;
 
     // patroling
     [SerializeField] List<Transform> patrolPointsList;
@@ -25,7 +26,13 @@ public class EnemyStateManager : MonoBehaviour
     // adsd
     [SerializeField] public float doIdleTime;
     [HideInInspector] public Transform playerTransform;
-    [SerializeField] public float performAttackTime;
+    
+
+    //enemy stats
+    [SerializeField] private float maxHp = 100;
+    private float health;
+    private bool isDead;
+    
 
     
 
@@ -34,8 +41,9 @@ public class EnemyStateManager : MonoBehaviour
     void Awake(){
         agent = GetComponent<NavMeshAgent>();
         attackScript = GetComponent<AttackPlayer>();
-        if(patrolPointsList.Count == 0){
-            Debug.LogError("Add at least 1 patrol point to " + this);
+        if(patrolPointsList.Count <= 1){
+            patrolPointsList.Add(transform);
+            // Debug.LogWarning("No patrol points on " + this);
         }
     }
 
@@ -47,7 +55,9 @@ public class EnemyStateManager : MonoBehaviour
             patrolPoints.Enqueue(point.position);
         }
         
+        health = maxHp;
 
+        // Start state = idle
         currentState = IdleState;
         currentState.EnterState(this);
     }
@@ -55,6 +65,7 @@ public class EnemyStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         currentState.UpdateState(this);
         
     }
@@ -79,6 +90,22 @@ public class EnemyStateManager : MonoBehaviour
             playerTransform = T;
             SwitchState(ChaseState);
         }
+        
+
+    }
+
+    public void TakeDamage(float damage, Transform source){
+        if(isDead)
+            return;
+
+        health -= damage;
+
+        if(health < 0){
+            health = 0;
+            isDead = true;
+        }    
+        
+        HealthbarScript.UpdateHealthbar(health, maxHp);
         
 
     }
