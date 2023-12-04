@@ -8,6 +8,7 @@ public class FlyingAbility : MonoBehaviour
     [SerializeField] float abilitySpeed;
     [SerializeField] float destroyAfter;
     [SerializeField] float acceleration;
+    [SerializeField] float damage = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -29,10 +30,15 @@ public class FlyingAbility : MonoBehaviour
         Invoke("DestroySelf", destroyAfter);
     }
 
-    public void OnTriggerEnter(Collider coll){
-        if(coll.tag == "Player")
-            DestroySelf();
-    }
+    
+    void OnTriggerEnter(Collider coll){
+        var dmgThis = coll.GetComponent<IDamagable>();
+        if(dmgThis != null){
+        // Debug.Log(dmgThis);
+            dmgThis.TakeDamage(damage, this.transform);
+        }
+        DestroySelf();
+   }
 
     private void DestroySelf(){
         Destroy(this.gameObject);

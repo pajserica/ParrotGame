@@ -2,10 +2,15 @@ using UnityEngine;
 
     
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour 
+{
 
     [SerializeField] private float moveSpeed = 7f; 
-    [SerializeField] private PlayerInput playerInput;
+    private PlayerInput playerInput;
+
+    void Awake(){
+        playerInput = GetComponent<PlayerInput>();
+    }
     
     public void Move(){
         Vector2 inputVector = playerInput.GetMovementVectorNormalized();
@@ -17,7 +22,9 @@ public class PlayerMovement : MonoBehaviour {
         float playerHeight = 2f;
         bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
 
-        if (!canMove){
+        if (canMove)
+            transform.position += moveDir * moveSpeed * Time.deltaTime;
+        else{
 
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
             canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
@@ -37,11 +44,13 @@ public class PlayerMovement : MonoBehaviour {
 
         }
 
-        if (canMove)
-            transform.position += moveDir * moveSpeed * Time.deltaTime;
 
         float rotateSpeed = 10f;
-        transform.forward = Vector3.Slerp(transform.forward,  moveDir, Time.deltaTime * rotateSpeed);
+        Quaternion targetRotation = Quaternion.Euler(moveDir);
+
+        // Smoothly rotate the object towards the desired direction
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotateSpeed);
+        
     }
     
 }
