@@ -1,13 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IDamagable
 {
-    [Header("Health attributes")] // ----------------------------
-    public float health = 100f;
-    public float maxHealth = 100f;
+    //[Header("Health attributes")] // ----------------------------
+    [SerializeField] float maxHpInInspector;
+    public float health {get; set;}
+    [SerializeField] public float maxHealth {get; set;}
     [HideInInspector] public bool playerIsDead;
     // ---------------------------------------------------------
     [SerializeField] GameObject playerAbility;
+    [SerializeField] Transform playerModel;
     // script references ----------------------------------------
     private PlayerFeedback playerFeedback;
     [SerializeField] private Healthbar hpBarScript;
@@ -16,13 +20,15 @@ public class Player : MonoBehaviour, IDamagable
 
     private void Start()
     {
+        maxHealth = maxHpInInspector;
+
         health = maxHealth; 
         playerIsDead = false;
     }
 
     private void Update()
     {
-        playerMovement.Move();
+        
     }
 
     // ------------------------------------------------------------- Hp Stuff
@@ -53,8 +59,7 @@ public class Player : MonoBehaviour, IDamagable
 
     // -----------------------------------------------------------------
     public void FireAbility(){
-        Instantiate(playerAbility, transform.position, Quaternion.Euler(transform.forward));
-        Debug.Log("player: "+transform.forward);
+        Instantiate(playerAbility, transform.position, playerModel.rotation);
     }
 
 

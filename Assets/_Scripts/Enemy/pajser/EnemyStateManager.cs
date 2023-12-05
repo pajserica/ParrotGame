@@ -30,8 +30,8 @@ public class EnemyStateManager : MonoBehaviour, IDamagable
 
     //enemy stats
     [SerializeField] private float maxHp = 100;
-    private float health;
-    private bool isDead;
+    public float health {get; set;}
+    public bool isDead {get; private set;}
     
 
     
