@@ -102,12 +102,15 @@ public class EnemyStateManager : MonoBehaviour, IDamagable
 
         if(health < 0){
             health = 0;
-            isDead = true;
+            Die();
         }    
         
         HealthbarScript.UpdateHealthbar(health, maxHp);
-        
+    }
 
+    private void Die(){
+        isDead = true;
+        Destroy(this.gameObject);
     }
 
 }

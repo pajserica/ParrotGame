@@ -6,11 +6,15 @@ public class GalebAttack : AttackPlayer
 {
 
     public Transform player;
-    public float accelerationTime; // Time taken to accelerate
+    [SerializeField] BoxCollider weaponTrigger;
     [SerializeField] private float maxAttackSpeed = 23f;
     private float startSpeed;
-    private float currentTimer;
     private bool accelerating;
+    Vector3 prevHorizDirection;
+    Vector3 horizontalDirection;
+    Vector3 directionToPlayer;
+    Vector3 playerStartPos;
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +22,7 @@ public class GalebAttack : AttackPlayer
         attackFinished = true;
         accelerating = true;
         startSpeed = agent.speed;
-        accelerationTime = range / 16f;
+        
     }
 
     // Update is called once per frame
@@ -26,27 +30,30 @@ public class GalebAttack : AttackPlayer
     {
         
         if(!attackFinished){
-            Vector3 directionToPlayer = player.position - transform.position;
+            Vector3 directionToPlayer = playerStartPos - transform.position;
             Vector3 horizontalDirection = new Vector3(directionToPlayer.x, 0f, directionToPlayer.z);
 
-            // Check if accelerating or decelerating based on the distance to the player
-            if (accelerating)
-            {
-                currentTimer += Time.deltaTime;
-                agent.speed = Mathf.Lerp(agent.speed, maxAttackSpeed, currentTimer / accelerationTime);
-                if(currentTimer >= accelerationTime)
-                    accelerating = false;
-            }
-            else // Decelerating
-            {
-                currentTimer -= Time.deltaTime;
-                agent.speed = Mathf.Lerp(agent.speed, startSpeed, (accelerationTime - currentTimer) / accelerationTime);
-                
+            // Check if accelerating or decelerating based on the distance to the playerStartPos
+            if (accelerating){
 
-                if (currentTimer <= 0)
+                Debug.Log("acel");
+                // agent.speed = Mathf.Lerp(agent.speed, maxAttackSpeed, (range - horizontalDirection.magnitude) / range);
+                agent.speed = maxAttackSpeed;
+
+                if(prevHorizDirection.magnitude < horizontalDirection.magnitude)
+                    accelerating = false;
+
+                prevHorizDirection = horizontalDirection;
+            }
+            else{ // Decelerating
+                agent.speed = Mathf.Lerp(agent.speed, startSpeed, (range - agent.remainingDistance) / range - 0.3f); // -------------------nzm sto nece da radi bez 0.3 lepo
+                // agent.speed = startSpeed;
+                Debug.Log((range - agent.remainingDistance) / range);
+
+                if (agent.remainingDistance <= agent.stoppingDistance)
                 {
-                    currentTimer = 0;
                     attackFinished = true;
+                    weaponTrigger.enabled = false;
                 }
             }
         }
@@ -54,10 +61,13 @@ public class GalebAttack : AttackPlayer
 
     public override void Attack(Transform playerTransform){
         attackFinished = false;
-        player = playerTransform;
-        accelerating = true;
-        Vector3 directionOfAttack = (playerTransform.position - transform.position).normalized;
-        agent.SetDestination(playerTransform.position + directionOfAttack * range);
+        playerStartPos = playerTransform.position;
+        Vector3 directionOfAttack = (playerTransform.position - transform.position);
+        agent.SetDestination(playerTransform.position + directionOfAttack);
+        weaponTrigger.enabled = true;
 
+        prevHorizDirection = new Vector3(100, 100, 100);
+        accelerating = true;
+        player = playerTransform; // dont need it for now
     }
 }
