@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Testiramo;
 
 public class PlayerIdleState<EState> : BaseState<EState> where EState : Enum
 {
 
-    PlayerSM playerScr;
+    
 
     public PlayerIdleState(EState enumState) : base(enumState)
     {

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+namespace Testiramo
+{
+
+
 public class PlayerSM : StateMachine<PlayerSM.EPlayerStates>
 {
     public enum EPlayerStates{
@@ -37,4 +41,5 @@ public class PlayerSM : StateMachine<PlayerSM.EPlayerStates>
     {
         
     }
+}
 }
