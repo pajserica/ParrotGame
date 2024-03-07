@@ -38,6 +38,7 @@ public class MeleeAnimationAttack : AttackPlayer
     
     private void StartAttack(){
         hitBox.enabled = true;
+         
     }
 
     private void OnTriggerEnter(Collider coll){
@@ -51,5 +52,6 @@ public class MeleeAnimationAttack : AttackPlayer
 
     private void EndAttack(){
         hitBox.enabled = false;
+        attackFinished = true;
     }
 }

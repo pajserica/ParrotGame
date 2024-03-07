@@ -10,9 +10,11 @@ public class EnemyAttackState : EnemyBaseState
     }
     public override void UpdateState(EnemyStateManager enemy){
         if(!enemy.attackScript.attackFinished){
+            Debug.Log("not finished...");
         }
         else{
-            if(enemy.playerTransform)
+            Debug.Log("finished...");
+            if (enemy.playerTransform)
                 enemy.SwitchState(enemy.ChaseState);
             else
                 enemy.SwitchState(enemy.IdleState);
