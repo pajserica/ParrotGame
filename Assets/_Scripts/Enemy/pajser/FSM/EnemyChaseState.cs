@@ -9,6 +9,7 @@ public class EnemyChaseState : EnemyBaseState
     public override void UpdateState(EnemyStateManager enemy){
         if(enemy.playerTransform){
             if(enemy.agent.remainingDistance <= enemy.attackScript.range){
+                // Debug.Log(" go to attackkkk!");
                 enemy.SwitchState(enemy.AttackState);
             }else{
                 enemy.agent.SetDestination(enemy.playerTransform.position);

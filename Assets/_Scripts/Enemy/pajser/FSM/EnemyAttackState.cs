@@ -6,14 +6,15 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void EnterState(EnemyStateManager enemy){
         enemy.attackScript.Attack(enemy.playerTransform);
-        // Debug.Log("State attacking ");
+        
+        //Debug.Log("State attacking ");
     }
     public override void UpdateState(EnemyStateManager enemy){
         if(!enemy.attackScript.attackFinished){
-            Debug.Log("not finished...");
+            // Debug.Log("attacking!!...");
         }
         else{
-            Debug.Log("finished...");
+            // Debug.Log("finished attacking...");
             if (enemy.playerTransform)
                 enemy.SwitchState(enemy.ChaseState);
             else
